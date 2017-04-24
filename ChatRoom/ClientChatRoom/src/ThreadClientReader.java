@@ -16,7 +16,7 @@ public class ThreadClientReader extends Thread{
     public void run(){
         while(true){
             try{
-                System.out.println(buffered.readLine());
+                System.out.println("chat: "+buffered.readLine());
             }catch(java.io.IOException e)
             {
                 e.printStackTrace();

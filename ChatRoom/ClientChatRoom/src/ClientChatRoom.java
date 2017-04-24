@@ -34,7 +34,6 @@ public class ClientChatRoom
         outToServer.writeBytes(nickname+"\n");
         while(!input.equals("stop"))
         {
-            System.out.print("Messaggio: ");
             input = bufferedReader.readLine();
             outToServer.writeBytes(input + "\n");
         }

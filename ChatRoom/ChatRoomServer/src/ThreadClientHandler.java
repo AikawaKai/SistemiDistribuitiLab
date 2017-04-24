@@ -3,6 +3,8 @@
  */
 import java.io.*;
 import java.net.*;
+import java.util.*;
+
 public class ThreadClientHandler extends Thread {
     private Socket conn = null;
     private BufferedReader inFromClient = null;
@@ -10,10 +12,13 @@ public class ThreadClientHandler extends Thread {
     private BufferString bufferString;
     private String response = "";
     private String nickname = "";
+    public int tId;
+    private ArrayList<ThreadClientHandler> threads = null;
 
-    public ThreadClientHandler(Socket connection, BufferString buffer){
+    public ThreadClientHandler(int id, Socket connection, BufferString buffer){
         conn = connection;
         bufferString = buffer;
+        tId = id;
 
         try {
             inFromClient = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -37,7 +42,7 @@ public class ThreadClientHandler extends Thread {
 
     }
 
-    private void writeBytes(String message)
+    public void writeBytes(String message)
     {
         try
         {
@@ -46,7 +51,6 @@ public class ThreadClientHandler extends Thread {
         {
             e.printStackTrace();
         }
-
     }
 
     public void run()
@@ -60,10 +64,18 @@ public class ThreadClientHandler extends Thread {
             {
                 break;
             }
-            writeBytes("a caso\n");
             bufferString.writeMessage(nickname+" : "+response);
         }
         System.out.println("Client Disconnected\n");
+        synchronized (threads){
+            for(int i=0; i<threads.size(); i++){
+                if(threads.get(i).tId == tId)
+                {
+                    threads.remove(i);
+                    break;
+                }
+            }
+        }
 
     }
 }

@@ -5,22 +5,27 @@
  * Created by kai on 24/04/17.
  */
 import java.net.*;
+import java.util.*;
 
 public class ChatRoomServer {
 
     public static void main(String argv[]) throws Exception
     {
-        //Spettacolo prova1 = new Spettacolo(100);
+        int threadId = 0;
         ServerSocket welcomeSocket = new ServerSocket(6666);
-        BufferString test = new BufferString();
-        ThreadReader reader = new ThreadReader(test);
-        reader.start();
+        BufferString buffer = new BufferString();
+        ArrayList<ThreadClientHandler> threads= new ArrayList<ThreadClientHandler>();
+        ThreadSender sender = new ThreadSender(threads, buffer);
+        sender.start();
 
         while(true)
         {
+
             Socket connectionSocket = welcomeSocket.accept();
-            ThreadClientHandler handler = new ThreadClientHandler(connectionSocket, test);
+            ThreadClientHandler handler = new ThreadClientHandler(threadId, connectionSocket, buffer);
             handler.start();
+            threads.add(handler);
+            threadId++;
         }
     }
 }

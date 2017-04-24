@@ -29,14 +29,14 @@ public class ClientChatRoom
         System.out.println("Connesso.");
         System.out.print("Inserisci il tuo nickname: ");
         nickname = bufferedReader.readLine();
+        ThreadClientReader reader = new ThreadClientReader(clientSocket, inFromServer);
+        reader.start();
         outToServer.writeBytes(nickname+"\n");
         while(!input.equals("stop"))
         {
             System.out.print("Messaggio: ");
             input = bufferedReader.readLine();
             outToServer.writeBytes(input + "\n");
-            serverResponse = inFromServer.readLine();
-            System.out.println(serverResponse);
         }
     }
 }

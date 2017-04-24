@@ -56,13 +56,11 @@ public class ThreadClientHandler extends Thread {
         nickname = result[0];
         while(true){
             response = readLine();
-            writeBytes("-\n");
             if(response.equals("stop\n"))
             {
-                writeBytes("-\n");
                 break;
             }
-
+            writeBytes("a caso\n");
             bufferString.writeMessage(nickname+" : "+response);
         }
         System.out.println("Client Disconnected\n");

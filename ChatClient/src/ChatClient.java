@@ -23,8 +23,7 @@ public class ChatClient
         BufferedReader inFromServer =
                 new BufferedReader(new
                         InputStreamReader(clientSocket.getInputStream()));
-        serverResponse = "ko";
-        while(!input.equals("stop\n"))
+        while(!input.equals("stop"))
         {
             System.out.println("Messaggio: ");
             input = bufferedReader.readLine();
@@ -32,7 +31,5 @@ public class ChatClient
             serverResponse = inFromServer.readLine();
             System.out.println(serverResponse);
         }
-        serverResponse = inFromServer.readLine();
-        System.out.println("Risposta: "+serverResponse);
     }
 }

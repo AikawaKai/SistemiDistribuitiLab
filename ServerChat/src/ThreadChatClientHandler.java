@@ -49,11 +49,18 @@ public class ThreadChatClientHandler extends Thread {
 
     public void run()
     {
-        while(!response.equals("stop\n")){
+        while(true){
             response = readLine();
             writeBytes("-\n");
+            if(response.equals("stop\n"))
+            {
+                writeBytes("-\n");
+                break;
+            }
+
             bufferString.writeMessage(response);
         }
+        System.out.println("Client Disconnected\n");
 
     }
 }
